@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestor de Inventario - Farmacia</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <div class="sidebar-user" id="sidebar-user">
+        <img src="https://ui-avatars.com/api/?name=JD&background=2563eb&color=fff" class="sidebar-user-img">
+        <div>
+          <h3 id="side-nombre">JD</h3>
+          <p id="side-rol">Gerente</p>
+        </div>
+        <span class="user-dropdown-icon">▼</span>
+      </div>
+
+      <div class="user-dropdown" id="user-dropdown">
+        <button id="btn-cambiar-pass">Cambiar contraseña</button>
+        <button id="btn-logout">Cerrar sesión</button>
+      </div>
+
+      <div class="sidebar-header">
+        <h2>Menú</h2>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-section="dashboard">Dashboard</button>
+        <button class="nav-item" data-section="productos">Productos</button>
+        <button class="nav-item" data-section="stock">Stock</button>
+        <button class="nav-item" data-section="facturas">Facturas</button>
+        <button class="nav-item" data-section="proveedores">Proveedores</button>
+        <button class="nav-item" data-section="clientes">Clientes</button>
+        <button class="nav-item" data-section="usuarios">Usuarios</button>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <h1 id="section-title">Dashboard</h1>
+        <div class="user-info">
+          <span id="top-usuario">Usuario: JD</span>
+        </div>
+      </header>
+
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="section visible">
+        <div class="cards">
+          <div class="card">
+            <h3>Productos activos</h3>
+            <p id="card-productos">0</p>
+          </div>
+          <div class="card">
+            <h3>Stock total</h3>
+            <p id="card-stock">0</p>
+          </div>
+          <div class="card">
+            <h3>Facturas hoy</h3>
+            <p id="card-facturas">0</p>
+          </div>
+          <div class="card">
+            <h3>Proveedores</h3>
+            <p id="card-proveedores">0</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Resumen rápido</h2>
+          <canvas id="chart-placeholder"></canvas>
+          <p class="hint">Aquí puedes integrar luego gráficos (Chart.js, etc.).</p>
+        </div>
+      </section>
+
+      <!-- PRODUCTOS -->
+      <section id="productos" class="section">
+        <div class="section-header">
+          <h2>Gestión de productos</h2>
+          <button id="btn-nuevo-producto" class="btn-primary">Nuevo producto</button>
+        </div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Categoría</th>
+              <th>Proveedor</th>
+              <th>Precio venta</th>
+              <th>Cantidad</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-productos"></tbody>
+        </table>
+      </section>
+
+      <!-- STOCK -->
+      <section id="stock" class="section">
+        <div class="section-header">
+          <h2>Gestión de stock</h2>
+        </div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad actual</th>
+              <th>Mínima</th>
+              <th>Máxima</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-stock"></tbody>
+        </table>
+      </section>
+
+      <!-- FACTURAS -->
+      <section id="facturas" class="section">
+        <div class="section-header">
+          <h2>Facturas</h2>
+          <button id="btn-nueva-factura" class="btn-primary">Nueva factura</button>
+        </div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>N° Factura</th>
+              <th>Cliente</th>
+              <th>Fecha</th>
+              <th>Subtotal</th>
+              <th>Impuesto</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-facturas"></tbody>
+        </table>
+      </section>
+
+      <!-- PROVEEDORES -->
+      <section id="proveedores" class="section">
+        <div class="section-header">
+          <h2>Proveedores</h2>
+          <button id="btn-nuevo-proveedor" class="btn-primary">Nuevo proveedor</button>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Teléfono</th>
+              <th>Correo</th>
+              <th>Dirección</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-proveedores"></tbody>
+        </table>
+      </section>
+
+      <!-- CLIENTES -->
+      <section id="clientes" class="section">
+        <div class="section-header">
+          <h2>Clientes</h2>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Cédula</th>
+              <th>Teléfono</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-clientes"></tbody>
+        </table>
+      </section>
+
+      <!-- USUARIOS -->
+      <section id="usuarios" class="section">
+        <div class="section-header">
+  <h2>Usuarios del sistema</h2>
+  <button id="btn-nuevo-usuario" class="btn-primary">Nuevo usuario</button>
+</div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Rol</th>
+              <th>Usuario</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-usuarios"></tbody>
+        </table>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODAL NUEVO / EDITAR PRODUCTO -->
+ <div id="modal-producto" class="modal">
+  <div class="modal-content">
+    <h2 id="modal-title">Nuevo producto</h2>
+      <form id="form-producto">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" id="prod-nombre" required>
+        </div>
+        <div class="form-group">
+          <label>Categoría</label>
+          <select id="prod-categoria"></select>
+        </div>
+        <div class="form-group">
+          <label>Proveedor</label>
+          <select id="prod-proveedor"></select>
+        </div>
+        <div class="form-group">
+  <label>Descripción</label>
+  <input type="text" id="prod-descripcion">
+</div>
+
+<div class="form-group">
+  <label>Código de barras</label>
+  <input type="text" id="prod-codigo">
+</div>
+
+<div class="form-group">
+  <label>Fecha de vencimiento</label>
+  <input type="date" id="prod-vencimiento">
+</div>
+
+        <div class="form-group">
+          <label>Precio venta</label>
+          <input type="number" step="0.01" id="prod-precio" required>
+        </div>
+        <div class="form-group">
+          <label>Cantidad inicial</label>
+          <input type="number" id="prod-cantidad" min="0" required>
+        </div>
+        <div class="form-actions">
+          <button type="button" id="btn-cancelar" class="btn-secondary">Cancelar</button>
+          <button type="submit" class="btn-primary">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<!-- MODAL NUEVO PROVEEDOR -->
+<div id="modal-proveedor" class="modal">
+  <div class="modal-content">
+    <h2 id="modal-prov-title">Nuevo proveedor</h2>
+
+    <form id="form-proveedor">
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" id="prov-nombre" required>
+      </div>
+
+      <div class="form-group">
+        <label>Teléfono</label>
+        <input type="text" id="prov-telefono" required>
+      </div>
+
+      <div class="form-group">
+        <label>Correo</label>
+        <input type="email" id="prov-correo" required>
+      </div>
+
+      <div class="form-group">
+  <label>Dirección</label>
+  <input type="text" id="prov-direccion">
+</div>
+
+
+      <div class="form-actions">
+        <button type="button" id="btn-cancelar-prov" class="btn-secondary">Cancelar</button>
+        <button type="submit" class="btn-primary">Guardar</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+<div id="modal-usuario" class="modal">
+  <div class="modal-content">
+    <h2 id="modal-user-title">Nuevo usuario</h2>
+
+    <form id="form-usuario">
+
+  <input type="hidden" id="user-id">
+
+  <div class="form-group">
+    <label>Nombre</label>
+    <input type="text" id="user-nombre" required>
+  </div>
+
+  <div class="form-group">
+    <label>Usuario</label>
+    <input type="text" id="user-usuario" required>
+  </div>
+
+  <div class="form-group">
+    <label>Contraseña</label>
+    <input type="password" id="user-contrasena">
+  </div>
+
+  <div class="form-group">
+    <label>Rol</label>
+    <select id="user-rol"></select>
+  </div>
+
+  <div class="form-group">
+    <label>Estado</label>
+    <select id="user-estado">
+      <option value="1">Activo</option>
+      <option value="0">Inactivo</option>
+    </select>
+  </div>
+
+  <div class="form-actions">
+    <button type="button" class="btn-secondary" onclick="document.getElementById('modal-usuario').classList.remove('visible')">Cancelar</button>
+    <button type="submit" class="btn-primary">Guardar</button>
+  </div>
+</form>
+
+  </div>
+</div>
+
+
+
+  <script src="app.js"></script>
+</body>
+</html>

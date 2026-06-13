@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Inventario Farmacia</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+  <div class="layout" style="justify-content:center; align-items:center;">
+    <div class="panel" style="max-width:360px; width:100%;">
+      <h2>Iniciar sesión</h2>
+
+      <form id="form-login">
+        <div class="form-group">
+          <label>Usuario</label>
+          <input type="text" id="login-usuario" required>
+        </div>
+
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input type="password" id="login-pass" required>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Entrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<script>
+document.getElementById("form-login").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const usuario = document.getElementById("login-usuario").value;
+  const contrasena = document.getElementById("login-pass").value;
+
+  const formData = new FormData();
+  formData.append("usuario", usuario);
+  formData.append("contrasena", contrasena);
+
+  const res = await fetch("../backend/login.php", {
+    method: "POST",
+    body: formData
+  });
+
+  const data = await res.json();
+
+  if (!data.ok) {
+    alert(data.msg);
+    return;
+  }
+
+  localStorage.setItem("usuarioActual", JSON.stringify(data));
+localStorage.setItem("paginas_usuario", JSON.stringify(data.paginas));
+  window.location.href = "index.html";
+});
+</script>
+
+</body>
+</html>
