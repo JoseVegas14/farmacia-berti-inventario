@@ -1,0 +1,215 @@
+/* ===========================
+   FONDO PREMIUM + MODO OSCURO
+   =========================== */
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+  background: linear-gradient(135deg, #e3f2fd, #c83de4c0);
+  transition: 0.4s ease;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Fondo médico premium */
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("carlos.jpg") center/cover no-repeat;
+  opacity: 0.5;
+  z-index: -1;
+}
+
+/* Modo oscuro automático */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: linear-gradient(135deg, #1a1a1a, #4b0082);
+  }
+  body::before {
+    opacity: 0.05;
+  }
+}
+
+/* ===========================
+   ANIMACIONES
+   =========================== */
+
+.fade-in {
+  animation: fadeIn 0.8s ease forwards;
+}
+
+.slide-up {
+  animation: slideUp 0.8s ease forwards;
+}
+
+.fade-out {
+  animation: fadeOut 0.6s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.95); }
+}
+
+/* ===========================
+   TARJETA GLASSMORPHISM
+   =========================== */
+
+.login-card {
+  width: 100%;
+  max-width: 380px;
+  padding: 32px;
+  border-radius: 18px;
+  text-align: center;
+  backdrop-filter: blur(18px);
+  background: rgba(255, 255, 255, 0.25);
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  position: relative;
+  animation: glow 3s infinite alternate ease-in-out;
+}
+
+/* Borde neón morado */
+@keyframes glow {
+  from { box-shadow: 0 0 12px #b108ff; }
+  to { box-shadow: 0 0 28px #d45aff; }
+}
+
+/* ===========================
+   LOGO ANIMADO
+   =========================== */
+
+.logo {
+  width: 80px;
+  margin-bottom: 10px;
+  animation: pulse 2.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.08); opacity: 0.9; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ===========================
+   TEXTOS
+   =========================== */
+
+h2 {
+  margin: 0;
+  font-weight: 700;
+  color: #b108ff;
+  text-shadow: 0 0 6px rgba(177, 8, 255, 0.4);
+}
+
+.subtitle {
+  margin-top: 4px;
+  color: #2c2b2b;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+/* ===========================
+   FORMULARIO
+   =========================== */
+
+.form-group {
+  text-align: left;
+  margin-bottom: 16px;
+  padding-right: 25px;
+}
+
+label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  text-shadow: 0 0 4px rgba(0,0,0,0.4);
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border-radius: 8px;
+  border: 1px solid #b0bec5;
+  font-size: 15px;
+  transition: 0.2s;
+  background: rgba(255,255,255,0.7);
+}
+
+input:focus {
+  border-color: #b108ff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(177, 8, 255, 0.35);
+}
+
+/* ===========================
+   BOTÓN
+   =========================== */
+
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #b108ff, #1e88e5);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.25s;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 0 12px rgba(177, 8, 255, 0.6);
+}
+
+/* ===========================
+   FOOTER
+   =========================== */
+
+.footer-text {
+  margin-top: 20px;
+  font-size: 12px;
+  color: #000000;
+}
+
+/* ===========================
+   ALERTA DE ERROR
+   =========================== */
+
+.alert-box {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #e53935;
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  animation: fadeIn 0.4s ease;
+  font-weight: 600;
+}
+
+.alert-box.hide {
+  animation: fadeOut 0.3s ease forwards;
+}

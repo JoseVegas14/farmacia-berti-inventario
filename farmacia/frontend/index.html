@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestor de Inventario - Farmacia</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <div class="sidebar-user" id="sidebar-user">
+        <img src="https://ui-avatars.com/api/?name=JD&background=2563eb&color=fff" class="sidebar-user-img">
+        <div>
+          <h3 id="side-nombre">JD</h3>
+          <p id="side-rol">Gerente</p>
+        </div>
+        <span class="user-dropdown-icon">▼</span>
+      </div>
+
+      <div class="user-dropdown" id="user-dropdown">
+        <button id="btn-cambiar-pass">Cambiar contraseña</button>
+        <button id="btn-logout">Cerrar sesión</button>
+      </div>
+
+      <div class="sidebar-header">
+        <h2>Menú</h2>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-section="dashboard">Dashboard</button>
+        <button class="nav-item" data-section="productos">Productos</button>
+        <button class="nav-item" data-section="stock">Stock</button>
+        <button class="nav-item" data-section="facturas">Facturas</button>
+        <button class="nav-item" data-section="proveedores">Proveedores</button>
+        <button class="nav-item" data-section="clientes">Clientes</button>
+        <button class="nav-item" data-section="usuarios">Usuarios</button>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <h1 id="section-title">Dashboard</h1>
+        <div class="user-info">
+          <span id="top-usuario">Usuario: JD</span>
+        </div>
+      </header>
+
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="section visible">
+        <div class="cards">
+          <div class="card">
+            <h3>Productos activos</h3>
+            <p id="card-productos">0</p>
+          </div>
+          <div class="card">
+            <h3>Stock total</h3>
+            <p id="card-stock">0</p>
+          </div>
+          <div class="card">
+            <h3>Facturas hoy</h3>
+            <p id="card-facturas">0</p>
+          </div>
+          <div class="card">
+            <h3>Proveedores</h3>
+            <p id="card-proveedores">0</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Resumen rápido</h2>
+          <canvas id="chart-placeholder"></canvas>
+          <p class="hint">Aquí puedes integrar luego gráficos (Chart.js, etc.).</p>
+        </div>
+      </section>
+
+      <!-- PRODUCTOS -->
+      <section id="productos" class="section">
+        <div class="section-header">
+          <h2>Gestión de productos</h2>
+          <button id="btn-nuevo-producto" class="btn-primary">Nuevo producto</button>
+        </div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Categoría</th>
+              <th>Proveedor</th>
+              <th>Precio venta</th>
+              <th>Cantidad</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-productos"></tbody>
+        </table>
+      </section>
+
+      <!-- STOCK -->
+      <section id="stock" class="section">
+        <div class="section-header">
+          <h2>Gestión de stock</h2>
+        </div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad actual</th>
+              <th>Mínima</th>
+              <th>Máxima</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-stock"></tbody>
+        </table>
+      </section>
+
+      <!-- FACTURAS -->
+<section id="facturas" class="section">
+  <div class="section-header">
+    <h2>Facturas</h2>
+    <button id="btn-nueva-factura" class="btn-primary">Nueva factura</button>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>N° Factura</th>
+        <th>Cliente</th>
+        <th>Fecha</th>
+        <th>Subtotal</th>
+        <th>Impuesto</th>
+        <th>Total</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="tabla-facturas"></tbody>
+  </table>
+</section>
+
+
+      <!-- PROVEEDORES -->
+      <section id="proveedores" class="section">
+        <div class="section-header">
+          <h2>Proveedores</h2>
+          <button id="btn-nuevo-proveedor" class="btn-primary">Nuevo proveedor</button>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Teléfono</th>
+              <th>Correo</th>
+              <th>Dirección</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-proveedores"></tbody>
+        </table>
+      </section>
+
+      <!-- CLIENTES -->
+      <section id="clientes" class="section">
+        <div class="section-header">
+          <h2>Clientes</h2>
+        </div>
+       <table class="table">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Cédula</th>
+      <th>Teléfono</th>
+      <th>Dirección</th>
+    </tr>
+  </thead>
+  <tbody id="tabla-clientes"></tbody>
+</table>
+
+
+      </section>
+
+      <!-- USUARIOS -->
+      <section id="usuarios" class="section">
+        <div class="section-header">
+  <h2>Usuarios del sistema</h2>
+  <button id="btn-nuevo-usuario" class="btn-primary">Nuevo usuario</button>
+</div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Rol</th>
+              <th>Usuario</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-usuarios"></tbody>
+        </table>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODAL NUEVO / EDITAR PRODUCTO -->
+<div id="modal-producto" class="modal">
+  <div class="modal-content">
+    <h2 id="modal-title">Nuevo producto</h2>
+
+    <form id="form-producto">
+
+      <!-- DATOS DEL PRODUCTO -->
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" name="nombre" id="prod-nombre" required>
+      </div>
+
+      <div class="form-group">
+        <label>Categoría</label>
+        <select id="prod-categoria" name="id_categoria" required></select>
+      </div>
+
+      <div class="form-group">
+        <label>Proveedor</label>
+        <select id="prod-proveedor" name="id_proveedor" required></select>
+      </div>
+
+      <div class="form-group">
+        <label>Descripción</label>
+        <input type="text" name="descripcion" id="prod-descripcion">
+      </div>
+
+      <div class="form-group">
+        <label>Código de barras</label>
+        <input type="text" name="codigo_barra" id="prod-codigo">
+      </div>
+
+      <div class="form-group">
+        <label>Fecha de vencimiento</label>
+        <input type="date" name="fecha_vencimiento" id="prod-vencimiento">
+      </div>
+
+      <!-- DETALLE DEL PRODUCTO -->
+      <div class="form-group">
+        <label>Precio de compra</label>
+        <input type="number" name="precio_compra" id="prod-precio-compra" step="0.01" required>
+      </div>
+
+      <div class="form-group">
+        <label>Precio de venta</label>
+        <input type="number" name="precio_venta" id="prod-precio-venta" step="0.01" required>
+      </div>
+
+      <div class="form-group">
+        <label>Utilidad</label>
+        <input type="number" name="utilidad" id="prod-utilidad" step="0.01">
+      </div>
+
+      <div class="form-group">
+        <label>IVA</label>
+        <input type="number" name="iva" id="prod-iva" step="0.01">
+      </div>
+
+      <div class="form-group">
+        <label>Impuesto</label>
+        <select id="prod-impuesto" name="id_impuesto" required></select>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" id="btn-cancelar" class="btn-secondary">Cancelar</button>
+        <button type="submit" class="btn-primary">Guardar</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+
+<!-- MODAL NUEVO PROVEEDOR -->
+<div id="modal-proveedor" class="modal">
+  <div class="modal-content">
+    <h2 id="modal-prov-title">Nuevo proveedor</h2>
+
+    <form id="form-proveedor">
+      <div class="form-group">
+        <label>Nombre</label>
+         <input type="text" id="prov-nombre" name="nombre">
+      </div>
+
+      <div class="form-group">
+        <label>Teléfono</label>
+        <input type="text" id="prov-telefono" name="telefono">
+      </div>
+
+      <div class="form-group">
+        <label>Correo</label>
+        <input type="email" id="prov-correo" name="correo">
+      </div>
+
+      <div class="form-group">
+  <label>Dirección</label>
+  <input type="text" id="prov-direccion" name="direccion">
+</div>
+
+
+      <div class="form-actions">
+        <button type="button" id="btn-cancelar-prov" class="btn-secondary">Cancelar</button>
+        <button type="submit" class="btn-primary">Guardar</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+<div id="modal-usuario" class="modal">
+  <div class="modal-content">
+    <h2 id="modal-user-title">Nuevo usuario</h2>
+
+    <form id="form-usuario">
+
+  <input type="hidden" id="user-id">
+
+  <div class="form-group">
+    <label>Nombre</label>
+     <input type="text" name="nombre" id="user-nombre">
+  </div>
+
+  <div class="form-group">
+    <label>Usuario</label>
+    <input type="text" name="usuario" id="user-usuario">
+  </div>
+
+  <div class="form-group">
+    <label>Contraseña</label>
+    <input type="password" name="contrasena" id="user-contrasena">
+  </div>
+
+  <div class="form-group">
+    <label>Rol</label>
+   <select name="rol" id="user-rol"></select>
+  </div>
+
+  <div class="form-group">
+    <label>Estado</label>
+    <select id="user-estado">
+      <option value="1">Activo</option>
+      <option value="0">Inactivo</option>
+    </select>
+  </div>
+
+  <div class="form-actions">
+    <button type="button" class="btn-secondary" onclick="document.getElementById('modal-usuario').classList.remove('visible')">Cancelar</button>
+    <button type="submit" class="btn-primary">Guardar</button>
+  </div>
+</form>
+
+  </div>
+</div>
+
+
+
+
+
+<!-- ============================
+       MODAL CLIENTE
+============================= -->
+<div id="modal-cliente" class="modal">
+  <div class="modal-content">
+
+    <h2 id="modal-cliente-title">Nuevo cliente</h2>
+
+    <form id="form-cliente">
+
+      <input type="hidden" id="cliente-id" name="id_cliente">
+
+      <div class="form-group">
+        <label>Nombre completo</label>
+        <input type="text" id="cliente-nombre" name="nombre" required>
+      </div>
+
+      <div class="form-group">
+        <label>Cédula</label>
+        <input type="text" id="cliente-cedula" name="cedula">
+      </div>
+
+      <div class="form-group">
+        <label>Teléfono</label>
+        <input type="text" id="cliente-telefono" name="telefono">
+      </div>
+
+      <div class="form-group">
+        <label>Dirección</label>
+        <input type="text" id="cliente-direccion" name="direccion">
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" id="btn-cancelar-cliente">Cancelar</button>
+        <button type="submit" class="btn-primary">Guardar</button>
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+
+    </form>
+  </div>
+</div>
+
+
+<div id="modal-factura" class="modal">
+  <div class="modal-content" style="max-width: 700px;">
+    <h2 id="modal-factura-title">Nueva factura</h2>
+
+    <form id="form-factura">
+      <input type="hidden" name="id_factura" id="fact-id">
+
+      <!-- Datos generales -->
+      <div class="form-group">
+        <label>N° Factura</label>
+        <input type="text" name="numero_factura" id="fact-numero" required>
+      </div>
+
+      <div class="form-group">
+        <label>Cliente</label>
+        <select name="id_cliente" id="fact-cliente">
+          <!-- Se llena desde JS -->
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Método de pago</label>
+        <input type="text" name="metodo_pago" id="fact-metodo">
+      </div>
+
+      <div class="form-group">
+        <label>Observaciones</label>
+        <input type="text" name="observaciones" id="fact-observaciones">
+      </div>
+
+      <!-- Detalle de productos -->
+      <h3>Detalle de productos</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio unitario</th>
+            <th>Subtotal</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="fact-detalle-body"></tbody>
+      </table>
+
+      <button type="button" class="btn-secondary" id="fact-add-item">Agregar producto</button>
+
+      <!-- Totales -->
+      <div style="margin-top: 15px; text-align: right;">
+        <p>Subtotal: <span id="fact-subtotal">0.00</span></p>
+        <p>Impuesto: <span id="fact-impuesto">0.00</span></p>
+        <p><strong>Total: <span id="fact-total">0.00</span></strong></p>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" id="btn-cancelar-factura">Cancelar</button>
+        <button type="submit" class="btn-primary">Guardar factura</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+  <script src="app.js"></script>
+</body>
+</html>
